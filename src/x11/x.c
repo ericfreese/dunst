@@ -949,6 +949,46 @@ void x_free(void)
                 XCloseDisplay(xctx.dpy);
 }
 
+void x_parse_geometry(struct geometry *geom_ret)
+{
+        XParseGeometry(settings.geom,
+                       &(geom_ret->x),
+                       &(geom_ret->y),
+                       (unsigned int *) &(geom_ret->width),
+                       (unsigned int *) &(geom_ret->height)
+                       );
+
+        geom_ret->dynamic_width = have_dynamic_width();
+
+        geom_ret->color_strings[ColFG][LOW] = settings.lowfgcolor;
+        geom_ret->color_strings[ColFG][NORM] = settings.normfgcolor;
+        geom_ret->color_strings[ColFG][CRIT] = settings.critfgcolor;
+
+        geom_ret->color_strings[ColBG][LOW] = settings.lowbgcolor;
+        geom_ret->color_strings[ColBG][NORM] = settings.normbgcolor;
+        geom_ret->color_strings[ColBG][CRIT] = settings.critbgcolor;
+
+        if (settings.lowframecolor)
+                geom_ret->color_strings[ColFrame][LOW] = settings.lowframecolor;
+        else
+                geom_ret->color_strings[ColFrame][LOW] = settings.frame_color;
+        if (settings.normframecolor)
+                geom_ret->color_strings[ColFrame][NORM] = settings.normframecolor;
+        else
+                geom_ret->color_strings[ColFrame][NORM] = settings.frame_color;
+        if (settings.critframecolor)
+                geom_ret->color_strings[ColFrame][CRIT] = settings.critframecolor;
+        else
+                geom_ret->color_strings[ColFrame][CRIT] = settings.frame_color;
+
+        if (settings.geom[0] == '-') {
+                geom_ret->negative_width = true;
+                settings.geom++;
+        } else {
+                geom_ret->negative_width = false;
+        }
+}
+
 /*
  * Setup X11 stuff
  */

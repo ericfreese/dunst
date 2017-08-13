@@ -23,5 +23,12 @@
 #include "src/settings.h"
 #include "src/utils.h"
 
+struct geometry geometry;
+
+void draw_setup()
+{
+        x_parse_geometry(&geometry);
+        x_setup();
+}
 
 /* vim: set tabstop=8 shiftwidth=8 expandtab textwidth=0: */
