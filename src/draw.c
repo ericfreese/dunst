@@ -23,12 +23,19 @@
 #include "src/settings.h"
 #include "src/utils.h"
 
+cairo_surface_t *cairo_surface;
+cairo_t *cairo_context;
+PangoFontDescription *pango_fdesc;
+
 struct geometry geometry;
 
 void draw_setup()
 {
         x_parse_geometry(&geometry);
         x_setup();
+        cairo_surface = x_cairo_create_surface();
+        cairo_context = cairo_create(cairo_surface);
+        pango_fdesc = pango_font_description_from_string(settings.font);
 }
 
 /* vim: set tabstop=8 shiftwidth=8 expandtab textwidth=0: */
